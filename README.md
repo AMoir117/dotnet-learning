@@ -54,63 +54,14 @@ Artifacts appear in the usual `bin/Release` sub-folders of each project.
 
 ## Quick start
 
-### 1. Create (or check) users
-
-`users.txt` lives next to the solution file. Each line is
-
-```
-username:Base64_SHA256_PasswordHash
-```
-
-You can generate a hash in PowerShell with:
+### 1. Run the GUI
 
 ```powershell
-"yourPlainPassword" |
-  ConvertTo-SecureString -AsPlainText -Force |
-  %{ [System.Text.Encoding]::UTF8.GetBytes($_) } |
-  %{ [System.Security.Cryptography.SHA256]::Create().ComputeHash($_) } |
-  %{ [Convert]::ToBase64String($_) }
+ dotnet run --project FileTransferApp/GUI
 ```
 
-Add the resulting string to `users.txt`:
-
-```text
-alice:Wcf0q+sEwT+Q9cWgUeEq27gqqkE2qt4HlfxDtN57qZ4=
-```
-
-### 2. Run the server
-
-```powershell
- dotnet run --project FileTransferApp/Server
-```
-
-It will listen on **port 5000** and save incoming files to `~/Documents/shared` (or the Windows equivalent).
-
-### 3. Send a file
-
-*GUI*: `dotnet run --project FileTransferApp/GUI` – fill in IP, username, password, pick file(s)/folder and hit **Send**.
-
-*CLI* example:
-
-```powershell
- dotnet run --project FileTransferApp/Client -- \
-        "C:\path\to\my.zip"               # file to send
-        192.168.1.5                           # server IP
-        5000                                  # port (optional, defaults 5000)
-```
-
-When the transfer finishes the server replies with `SUCCESS`.
 
 ---
-
-## Command-line options
-
-`Client` defaults are hard-coded for quick testing. If you need more control, change `Program.cs` or call `FileSender.SendFileAsync(...)` from your own code.
-
-`Server` uses environment variables for a few settings – see comments at the top of `Server/Program.cs`.
-
----
-
 ## Architecture & Protocol
 
 1. **TLS handshake** (certificate validation currently skipped – BYO PKI).
@@ -135,8 +86,7 @@ See `Protocol.cs` in each project for exact constants.
 ## Roadmap / Ideas
 
 * Real certificate validation (mutual TLS or LetsEncrypt).
-* REST endpoint for uploading / retrieving files.
-* Portable UI (MAUI / Avalonia) for macOS & Linux.
+* Better GUI
 
 ---
 
