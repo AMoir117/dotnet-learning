@@ -1,0 +1,15 @@
+
+.vscode/
+.idea/
+
+**/bin
+**/obj
+**/example.txt
+**/server.pfx
+**/settings.txt
+**/users.txt
+
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
