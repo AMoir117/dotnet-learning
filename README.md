@@ -54,7 +54,13 @@ Artifacts appear in the usual `bin/Release` sub-folders of each project.
 
 ## Quick start
 
-### 1. Run the GUI
+### 1. Create cert
+
+```powershell
+dotnet dev-certs https -ep server.pfx -p changeit
+```
+
+### 2. Run the GUI
 
 ```powershell
  dotnet run --project FileTransferApp/GUI
